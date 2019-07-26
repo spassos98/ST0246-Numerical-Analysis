@@ -4,10 +4,18 @@
 Author: Santiago Passos & Alejandro Rojas
 """
 
-from math import inf
-
 class Binary_machine:
+    """
+    Class to handle machine number representation, this is, convert from
+    a real number to a machine number and vice versa.
     
+    Attributes
+    ----------
+    mantissa_len : int
+        The number of bits that the mantissa can store.
+    exponent_bits : int
+        The number of bits to represent the exponent in base 2.
+    """
     mantissa_len = None
     exponent_bits = None
     # The order of the bits is the following
@@ -20,6 +28,16 @@ class Binary_machine:
         """
         Get the binary representation of the integer an decimal part of a
         number.
+        
+        Parameters
+        ----------
+        dec_num : numeric
+            Number to get integer and decimal part from.
+            
+        Returns
+        -------
+        tuple
+            integer part, decimal part
         """
         # Get the interger and decimal part in decimal representation
         int_part, dec_part = split_number(dec_num)
@@ -30,14 +48,22 @@ class Binary_machine:
                                  self.mantissa_len + 2**(self.exponent_bits) 
                                  - 1)
         return (int_part, dec_part)
-    
-    def bin_to_dec():
-        pass
-    
+
+
     def dec_to_machine(self, num):
         """
         Given a decimal number in base 10 it returns it representation as
         machine number using the exponent mantissa standard.
+        
+        Parameters
+        ----------
+        num : numeric
+            Real number that will be represented as machine number.
+            
+        Returns
+        -------
+        str
+            The machine representation of the given number.
         """
         # Get the binary representation of the number
         int_part, dec_part = self.dec_to_bin(num)
@@ -74,10 +100,21 @@ class Binary_machine:
         
         machine_number = sign_bit + exponent_bit + exponent + mantissa_number
         return machine_number
-    
+
+
     def machine_to_dec(self,machine_number):
         """
         Given a machine number it returns it representation in base 10.
+        
+        Parameters
+        ----------
+        num : numeric
+            Machine number that will be represented as real number.
+            
+        Returns
+        -------
+        str
+            The decimal representation of the given number.
         """
         machine_number = str(machine_number)
         sign_bit = machine_number[0]
@@ -122,10 +159,23 @@ class Binary_machine:
         if sign_bit == '0':
             base_10_number = '-' + base_10_number
         return base_10_number
-    
+
+
 def int_to_base_k(num, base):
     """
     Get the representation in base k of an integer in base 10.
+    
+    Parameters
+    ----------
+    num : int
+        Integer to be converted to base k.
+    base : int
+        The base that will be used in the conversion.
+        
+    Returns
+    -------
+    str
+        The representation in base k of the given number.
     """
     num = int(num)
     new_number = ''
@@ -141,6 +191,19 @@ def dec_to_base_k(dec, base, mantissa_len=40):
     """
     Get the representation in base k of an decimal number (0.d1d2d3..) 
     in base 10.
+    
+    Parameters
+    ----------
+    num : int
+        Integer to be converted to base k. Note that if you want to convert,
+        for example, 0.234 you should pass it as 234.
+    base : int
+        The base that will be used in the conversion.
+        
+    Returns
+    -------
+    str
+        The representation in base k of the given number.
     """
     dec = float('0.' + str(dec))
     new_number = ''
@@ -157,6 +220,18 @@ def dec_to_base_k(dec, base, mantissa_len=40):
 def base_k_to_int(num, base):
     """
     Get the representation in base 10 of an integer in base k.
+    
+    Parameters
+    ----------
+    num : int
+        The  integer number in the given base.
+    base : int
+        The base that the number is in.
+
+    Returns
+    -------
+    numeric
+        The representation of the number in base 10.
     """
     str_num = str(num)
     base_10_num = 0
@@ -177,7 +252,7 @@ def base_k_to_dec(num, base):
     ----------
     num : int
         The decimal number without the 0. For instance if you want to convert
-        0.1110 in base 2, use base_k_to_dec(1110,2)
+        0.1110 in base 2, you should pass 1110
     base : int
         The base that the number is in.
         
@@ -197,7 +272,17 @@ def base_k_to_dec(num, base):
 
 def split_number(num):
     """
-    Split a number in the integer and decimal part
+    Split a number in the integer and decimal part.
+    
+    Parameters
+    ----------
+    num : numeric
+        The number to be splitted.
+        
+    Returns
+    -------
+    tuple
+        integer part, decimal part
     """
     str_num = str(num)
     # String to store the number
@@ -220,6 +305,21 @@ def split_number(num):
     return int_part, dec_part
 
 def real_to_base_k(num, k):
+    """
+    Convert a real number to its representation in base k.
+    
+    Parameters
+    ----------
+    num : numeric
+        A real number.
+    base : int
+        The base that will be used in the conversion.
+        
+    Returns
+    -------
+    str
+        The representation of the number in base k. 
+    """
     # Split the number in the integer and decimal part
     int_part, dec_part = split_number(num)
     # Convert the integer and decimal part to the base k representation
