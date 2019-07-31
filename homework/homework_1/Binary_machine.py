@@ -326,23 +326,3 @@ def real_to_base_k(num, k):
     int_part = int_to_base_k(int_part, k)
     dec_part = dec_to_base_k(dec_part, k, 10)
     return int_part + '.' + dec_part
-
-
-if __name__ == '__main__':
-    # Create a machine of 32 bits. 23 for the mantissa and 7 for the exponent
-    maquinita = Binary_machine(23, 7)
-    #maquinita = Binary_machine()
-    original_value = 0.1
-    machine_representation = maquinita.dec_to_machine(original_value)
-    decimal_representation = float(maquinita.machine_to_dec(machine_representation))
-    
-    print('Original value: %s' % original_value)
-    print('Machine representation: %s' % machine_representation)
-    print('Decimal representation: %s' % decimal_representation)
-    
-    print('')
-    absolute_error = abs(original_value -  decimal_representation)
-    relative_error = (absolute_error)/decimal_representation
-    
-    print('Absolute error: %.10f' % absolute_error)
-    print('Relative error: %.10f' % relative_error)
