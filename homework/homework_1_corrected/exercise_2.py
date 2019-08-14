@@ -25,3 +25,10 @@ if __name__ == '__main__':
     
     print('Absolute error: %.10f' % absolute_error)
     print('Relative error: %.10f' % relative_error)
+
+
+def f(a,b):
+    return a+b
+
+def method(fun,p1, p2):
+    print(fun(p1,p2))
