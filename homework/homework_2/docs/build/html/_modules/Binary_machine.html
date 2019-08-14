@@ -1,0 +1,669 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Binary_machine &mdash; homework_2 1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> homework_2
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../binary_machine.html">Binary Machine</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">homework_2</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">Module code</a> &raquo;</li>
+        
+      <li>Binary_machine</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for Binary_machine</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python3</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Author: Santiago Passos &amp; Alejandro Rojas</span>
+<span class="sd">&quot;&quot;&quot;</span>
+ 
+<div class="viewcode-block" id="Binary_machine"><a class="viewcode-back" href="../binary_machine.html#Binary_machine.Binary_machine">[docs]</a><span class="k">class</span> <span class="nc">Binary_machine</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class to handle machine number representation, this is, convert from</span>
+<span class="sd">    a real number to a machine number and vice versa.</span>
+<span class="sd">     </span>
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    mantissa_len : int</span>
+<span class="sd">        The number of bits that the mantissa can store.</span>
+<span class="sd">    exponent_bits : int</span>
+<span class="sd">        The number of bits to represent the exponent in base 2.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">mantissa_len</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">exponent_bits</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="c1"># The order of the bits is the following</span>
+    <span class="c1"># [mantissa sign bit] [exponent sign bit] [exponent] [mantissa]</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mantissa_len</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">exponent_bits</span><span class="o">=</span><span class="mi">4</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mantissa_len</span> <span class="o">=</span> <span class="n">mantissa_len</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">exponent_bits</span> <span class="o">=</span> <span class="n">exponent_bits</span>
+     
+<div class="viewcode-block" id="Binary_machine.dec_to_bin"><a class="viewcode-back" href="../binary_machine.html#Binary_machine.Binary_machine.dec_to_bin">[docs]</a>    <span class="k">def</span> <span class="nf">dec_to_bin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dec_num</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the binary representation of the integer an decimal part of a</span>
+<span class="sd">        number.</span>
+<span class="sd">         </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        dec_num : numeric</span>
+<span class="sd">            Number to get integer and decimal part from.</span>
+<span class="sd">             </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        tuple</span>
+<span class="sd">            integer part, decimal part</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Get the interger and decimal part in decimal representation</span>
+        <span class="n">int_part</span><span class="p">,</span> <span class="n">dec_part</span> <span class="o">=</span> <span class="n">split_number</span><span class="p">(</span><span class="n">dec_num</span><span class="p">)</span>
+         
+        <span class="c1"># Calculate the integer and decimal part in binary form</span>
+        <span class="n">int_part</span> <span class="o">=</span> <span class="n">int_to_base_k</span><span class="p">(</span><span class="n">int_part</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">dec_part</span> <span class="o">=</span> <span class="n">dec_to_base_k</span><span class="p">(</span><span class="n">dec_part</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> 
+                                 <span class="bp">self</span><span class="o">.</span><span class="n">mantissa_len</span> <span class="o">+</span> <span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">exponent_bits</span><span class="p">)</span> 
+                                 <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">int_part</span><span class="p">,</span> <span class="n">dec_part</span><span class="p">)</span></div>
+ 
+ 
+<div class="viewcode-block" id="Binary_machine.dec_to_machine"><a class="viewcode-back" href="../binary_machine.html#Binary_machine.Binary_machine.dec_to_machine">[docs]</a>    <span class="k">def</span> <span class="nf">dec_to_machine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Given a decimal number in base 10 it returns it representation as</span>
+<span class="sd">        machine number using the exponent mantissa standard.</span>
+<span class="sd">         </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        num : numeric</span>
+<span class="sd">            Real number that will be represented as machine number.</span>
+<span class="sd">             </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        str</span>
+<span class="sd">            The machine representation of the given number.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Get the binary representation of the number</span>
+        <span class="n">int_part</span><span class="p">,</span> <span class="n">dec_part</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dec_to_bin</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
+        <span class="n">mantissa_number</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="c1"># 1 when the exponent sign is positive</span>
+        <span class="n">exponent_bit</span> <span class="o">=</span> <span class="s1">&#39;1&#39;</span>
+        <span class="n">sign_bit</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">((</span><span class="n">num</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)))</span>
+        <span class="c1"># Exponent is positive when the integer part is greater than zero</span>
+        <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">int_part</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">exponent</span> <span class="o">=</span> <span class="n">int_to_base_k</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">int_part</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
+            <span class="n">mantissa_number</span> <span class="o">=</span> <span class="n">int_part</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">+</span> <span class="n">dec_part</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">exponent_bit</span> <span class="o">=</span> <span class="s1">&#39;0&#39;</span>
+            <span class="n">exponent</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">dec_part</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="k">break</span>
+                <span class="n">exponent</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">mantissa_number</span> <span class="o">=</span> <span class="n">dec_part</span><span class="p">[</span><span class="n">exponent</span><span class="o">+</span><span class="mi">1</span><span class="p">:]</span>
+            <span class="n">exponent</span> <span class="o">=</span> <span class="n">int_to_base_k</span><span class="p">(</span><span class="n">exponent</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+         
+        <span class="c1"># Fill the mantissa number with zeros if necessary</span>
+        <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">mantissa_number</span><span class="p">)</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">mantissa_len</span><span class="p">:</span>
+                <span class="n">mantissa_number</span> <span class="o">+=</span> <span class="s1">&#39;0&#39;</span>
+        <span class="c1"># Cut the mantisa number</span>
+        <span class="n">mantissa_number</span> <span class="o">=</span> <span class="n">mantissa_number</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">mantissa_len</span><span class="p">]</span>
+         
+        <span class="c1"># Fill the exponent with zeros if necessary</span>
+        <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">exponent</span><span class="p">)</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">exponent_bits</span><span class="p">:</span>
+            <span class="n">exponent</span> <span class="o">=</span> <span class="s1">&#39;0&#39;</span> <span class="o">+</span> <span class="n">exponent</span>
+         
+        <span class="c1"># Get the last numbers in the exponent</span>
+        <span class="n">exponent</span> <span class="o">=</span> <span class="n">exponent</span><span class="p">[</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">exponent_bits</span><span class="p">:]</span>
+         
+        <span class="n">machine_number</span> <span class="o">=</span> <span class="n">sign_bit</span> <span class="o">+</span> <span class="n">exponent_bit</span> <span class="o">+</span> <span class="n">exponent</span> <span class="o">+</span> <span class="n">mantissa_number</span>
+        <span class="k">return</span> <span class="n">machine_number</span></div>
+ 
+ 
+<div class="viewcode-block" id="Binary_machine.machine_to_dec"><a class="viewcode-back" href="../binary_machine.html#Binary_machine.Binary_machine.machine_to_dec">[docs]</a>    <span class="k">def</span> <span class="nf">machine_to_dec</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">machine_number</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Given a machine number it returns it representation in base 10.</span>
+<span class="sd">         </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        num : numeric</span>
+<span class="sd">            Machine number that will be represented as real number.</span>
+<span class="sd">             </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        str</span>
+<span class="sd">            The decimal representation of the given number.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">machine_number</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">machine_number</span><span class="p">)</span>
+        <span class="n">sign_bit</span> <span class="o">=</span> <span class="n">machine_number</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">exponent_bit</span> <span class="o">=</span> <span class="n">machine_number</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">exponent</span> <span class="o">=</span> <span class="n">machine_number</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">2</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">exponent_bits</span><span class="p">]</span>
+        <span class="n">mantissa_number</span> <span class="o">=</span> <span class="s1">&#39;1&#39;</span> <span class="o">+</span> <span class="n">machine_number</span><span class="p">[</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">mantissa_len</span><span class="p">:]</span>
+         
+        <span class="c1"># Get the exponent in base 10</span>
+        <span class="n">exponent</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">base_k_to_int</span><span class="p">(</span><span class="n">exponent</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+         
+        <span class="n">int_part</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">dec_part</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">exponent_bit</span> <span class="o">==</span> <span class="s1">&#39;0&#39;</span><span class="p">:</span>
+            <span class="c1"># If the exponent sign is negative append zeros to the left of</span>
+            <span class="c1"># the mantissa number</span>
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">exponent</span><span class="p">):</span>
+                <span class="n">mantissa_number</span> <span class="o">=</span> <span class="s1">&#39;0&#39;</span> <span class="o">+</span> <span class="n">mantissa_number</span>
+            <span class="c1"># The int part is zero because it is a number of the form</span>
+            <span class="c1"># 0.d1d2d3...</span>
+            <span class="n">int_part</span> <span class="o">=</span> <span class="s1">&#39;0&#39;</span>
+            <span class="n">dec_part</span> <span class="o">=</span> <span class="n">mantissa_number</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># If the exponent sign is positive use the first numbers as the</span>
+            <span class="c1"># integer part</span>
+            <span class="n">int_part</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">exponent</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">mantissa_number</span><span class="p">):</span>
+                    <span class="n">int_part</span> <span class="o">+=</span> <span class="n">mantissa_number</span><span class="p">[</span><span class="n">x</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">int_part</span> <span class="o">+=</span> <span class="s1">&#39;0&#39;</span>
+             
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">mantissa_number</span><span class="p">)</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">int_part</span><span class="p">):</span>
+                <span class="n">dec_part</span> <span class="o">=</span> <span class="n">mantissa_number</span><span class="p">[</span><span class="n">exponent</span><span class="p">:]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">dec_part</span> <span class="o">=</span> <span class="s1">&#39;0&#39;</span>
+         
+        <span class="c1"># Get the integer and decimal part in base 10</span>
+        <span class="n">int_part</span> <span class="o">=</span> <span class="n">base_k_to_int</span><span class="p">(</span><span class="n">int_part</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">dec_part</span> <span class="o">=</span> <span class="n">base_k_to_dec</span><span class="p">(</span><span class="n">dec_part</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+         
+        <span class="n">base_10_number</span> <span class="o">=</span> <span class="n">int_part</span> <span class="o">+</span> <span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="n">dec_part</span>
+        <span class="k">if</span> <span class="n">sign_bit</span> <span class="o">==</span> <span class="s1">&#39;0&#39;</span><span class="p">:</span>
+            <span class="n">base_10_number</span> <span class="o">=</span> <span class="s1">&#39;-&#39;</span> <span class="o">+</span> <span class="n">base_10_number</span>
+        <span class="k">return</span> <span class="n">base_10_number</span></div>
+    
+    
+<div class="viewcode-block" id="Binary_machine.greatest_number"><a class="viewcode-back" href="../binary_machine.html#Binary_machine.Binary_machine.greatest_number">[docs]</a>    <span class="k">def</span> <span class="nf">greatest_number</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the greatest number that the machine can store.</span>
+<span class="sd">         </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        None</span>
+<span class="sd">             </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        int</span>
+<span class="sd">            The greatest number that the machine can store.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">machine_to_dec</span><span class="p">(</span><span class="s1">&#39;11&#39;</span> <span class="o">+</span> <span class="s1">&#39;1&#39;</span><span class="o">*</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">exponent_bits</span> 
+                                                <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">mantissa_len</span><span class="p">)))</span></div>
+                
+
+<div class="viewcode-block" id="Binary_machine.smallest_number"><a class="viewcode-back" href="../binary_machine.html#Binary_machine.Binary_machine.smallest_number">[docs]</a>    <span class="k">def</span> <span class="nf">smallest_number</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the smallest positive number that the machine can store.</span>
+<span class="sd">         </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">             </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        int</span>
+<span class="sd">            The greatest number that the machine can store.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">machine_to_dec</span><span class="p">(</span><span class="s1">&#39;10&#39;</span> <span class="o">+</span> <span class="p">(</span><span class="s1">&#39;1&#39;</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">exponent_bits</span><span class="p">)</span> <span class="o">+</span> 
+                                    <span class="p">(</span><span class="s1">&#39;0&#39;</span><span class="o">*</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mantissa_len</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="o">+</span><span class="s1">&#39;1&#39;</span><span class="p">))</span></div>
+     
+                
+<div class="viewcode-block" id="Binary_machine.operate_two_decimals"><a class="viewcode-back" href="../binary_machine.html#Binary_machine.Binary_machine.operate_two_decimals">[docs]</a>    <span class="k">def</span> <span class="nf">operate_two_decimals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num1</span><span class="p">,</span> <span class="n">num2</span><span class="p">,</span> <span class="n">fun</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Given 2 decimal numbers and a binary arithmetic function returns </span>
+<span class="sd">        the result of the function.</span>
+<span class="sd">         </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        num1 : numeric</span>
+<span class="sd">            The first parameter for the binary function.   </span>
+<span class="sd">        num2 : numeric</span>
+<span class="sd">            The second parameter for the binary function.    </span>
+<span class="sd">        fun : binary function</span>
+<span class="sd">            Binary function to be applied (sum, substract, times).</span>
+<span class="sd">             </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        str</span>
+<span class="sd">            The result of the function in machine number.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dec_to_machine</span><span class="p">(</span><span class="n">fun</span><span class="p">(</span><span class="n">num1</span><span class="p">,</span><span class="n">num2</span><span class="p">)))</span></div>
+                
+         
+<div class="viewcode-block" id="Binary_machine.operate_two_machine_numbers"><a class="viewcode-back" href="../binary_machine.html#Binary_machine.Binary_machine.operate_two_machine_numbers">[docs]</a>    <span class="k">def</span> <span class="nf">operate_two_machine_numbers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num1</span><span class="p">,</span> <span class="n">num2</span><span class="p">,</span> <span class="n">fun</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Given 2 decimal numbers in machine representation and a binary </span>
+<span class="sd">        arithmetic function returns the result of the function.</span>
+<span class="sd">         </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        num1 : str</span>
+<span class="sd">            The first parameter for the binary function as machine number.</span>
+<span class="sd">        num2 : str</span>
+<span class="sd">            The second parameter for the binary function as machine number.    </span>
+<span class="sd">        fun : binary function</span>
+<span class="sd">            Binary function to be applied (sum, substract, times).</span>
+<span class="sd">             </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        str</span>
+<span class="sd">            The result of the function in machine number.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dec_to_machine</span><span class="p">(</span><span class="n">fun</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">machine_to_dec</span><span class="p">(</span><span class="n">num1</span><span class="p">),</span>
+                                        <span class="bp">self</span><span class="o">.</span><span class="n">machine_to_dec</span><span class="p">(</span><span class="n">num2</span><span class="p">))))</span></div>
+        
+        
+<div class="viewcode-block" id="Binary_machine.machine_epsilon"><a class="viewcode-back" href="../binary_machine.html#Binary_machine.Binary_machine.machine_epsilon">[docs]</a>    <span class="k">def</span> <span class="nf">machine_epsilon</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the machine epsilon. Smallest number that can sum to 1.</span>
+<span class="sd">         </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        None</span>
+<span class="sd">             </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        numeric</span>
+<span class="sd">            The machine epsilon.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">mantissa_len</span><span class="p">))</span></div></div>
+ 
+ 
+<div class="viewcode-block" id="int_to_base_k"><a class="viewcode-back" href="../binary_machine.html#Binary_machine.int_to_base_k">[docs]</a><span class="k">def</span> <span class="nf">int_to_base_k</span><span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="n">base</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get the representation in base k of an integer in base 10.</span>
+<span class="sd">     </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    num : int</span>
+<span class="sd">        Integer to be converted to base k.</span>
+<span class="sd">    base : int</span>
+<span class="sd">        The base that will be used in the conversion.</span>
+<span class="sd">         </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    str</span>
+<span class="sd">        The representation in base k of the given number.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">num</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
+    <span class="n">new_number</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="k">while</span> <span class="n">num</span> <span class="o">&gt;=</span> <span class="n">base</span><span class="p">:</span>
+        <span class="n">remainder</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">num</span><span class="o">%</span><span class="n">base</span><span class="p">)</span>
+        <span class="n">new_number</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">remainder</span><span class="p">)</span>
+        <span class="n">num</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">num</span><span class="o">/</span><span class="n">base</span><span class="p">)</span>
+    <span class="n">new_number</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">new_number</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span></div>
+ 
+ 
+<div class="viewcode-block" id="dec_to_base_k"><a class="viewcode-back" href="../binary_machine.html#Binary_machine.dec_to_base_k">[docs]</a><span class="k">def</span> <span class="nf">dec_to_base_k</span><span class="p">(</span><span class="n">dec</span><span class="p">,</span> <span class="n">base</span><span class="p">,</span> <span class="n">mantissa_len</span><span class="o">=</span><span class="mi">40</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get the representation in base k of an decimal number (0.d1d2d3..) </span>
+<span class="sd">    in base 10.</span>
+<span class="sd">     </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    num : int</span>
+<span class="sd">        Integer to be converted to base k. Note that if you want to convert,</span>
+<span class="sd">        for example, 0.234 you should pass it as 234.</span>
+<span class="sd">    base : int</span>
+<span class="sd">        The base that will be used in the conversion.</span>
+<span class="sd">         </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    str</span>
+<span class="sd">        The representation in base k of the given number.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dec</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;0.&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">dec</span><span class="p">))</span>
+    <span class="n">new_number</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="c1"># Multiply the number and get the int part, then continue to multiply</span>
+    <span class="c1"># only the decimal part</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">mantissa_len</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="n">dec</span><span class="o">*</span><span class="n">base</span>
+        <span class="n">int_part</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+        <span class="n">new_number</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">int_part</span><span class="p">)</span>
+        <span class="n">dec</span> <span class="o">=</span> <span class="n">val</span> <span class="o">-</span> <span class="n">int_part</span>
+    <span class="k">return</span>  <span class="n">new_number</span></div>
+
+                
+<div class="viewcode-block" id="base_k_to_int"><a class="viewcode-back" href="../binary_machine.html#Binary_machine.base_k_to_int">[docs]</a><span class="k">def</span> <span class="nf">base_k_to_int</span><span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="n">base</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get the representation in base 10 of an integer in base k.</span>
+<span class="sd">     </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    num : int</span>
+<span class="sd">        The  integer number in the given base.</span>
+<span class="sd">    base : int</span>
+<span class="sd">        The base that the number is in.</span>
+<span class="sd"> </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numeric</span>
+<span class="sd">        The representation of the number in base 10.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">str_num</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
+    <span class="n">base_10_num</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">exp</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">str_num</span> <span class="o">=</span> <span class="n">str_num</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">str_num</span><span class="p">:</span>
+        <span class="n">base_10_num</span> <span class="o">+=</span> <span class="nb">int</span><span class="p">(</span><span class="n">val</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">base</span><span class="o">**</span><span class="n">exp</span><span class="p">)</span>
+        <span class="n">exp</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">split_number</span><span class="p">(</span><span class="n">base_10_num</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span></div>
+ 
+ 
+<div class="viewcode-block" id="base_k_to_dec"><a class="viewcode-back" href="../binary_machine.html#Binary_machine.base_k_to_dec">[docs]</a><span class="k">def</span> <span class="nf">base_k_to_dec</span><span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="n">base</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get the representation in base 10 of an decimal number (0.d1d2d3...) </span>
+<span class="sd">    in base k.</span>
+<span class="sd">     </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    num : int</span>
+<span class="sd">        The decimal number without the 0. For instance if you want to convert</span>
+<span class="sd">        0.1110 in base 2, you should pass 1110</span>
+<span class="sd">    base : int</span>
+<span class="sd">        The base that the number is in.</span>
+<span class="sd">         </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numeric</span>
+<span class="sd">        The representation of the number in base 10.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">str_num</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
+    <span class="n">base_10_num</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">exp</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">str_num</span><span class="p">:</span>
+        <span class="n">base_10_num</span> <span class="o">+=</span> <span class="nb">int</span><span class="p">(</span><span class="n">val</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">base</span><span class="o">**</span><span class="n">exp</span><span class="p">)</span>
+        <span class="n">exp</span> <span class="o">-=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">split_number</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">base_10_num</span><span class="p">))[</span><span class="mi">1</span><span class="p">])</span></div>
+     
+ 
+<div class="viewcode-block" id="split_number"><a class="viewcode-back" href="../binary_machine.html#Binary_machine.split_number">[docs]</a><span class="k">def</span> <span class="nf">split_number</span><span class="p">(</span><span class="n">num</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Split a number in the integer and decimal part.</span>
+<span class="sd">     </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    num : numeric</span>
+<span class="sd">        The number to be splitted.</span>
+<span class="sd">         </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    tuple</span>
+<span class="sd">        integer part, decimal part</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">str_num</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
+    <span class="c1"># String to store the number</span>
+    <span class="n">temp</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="n">int_part</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">dec_part</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="c1"># All the numbers before a &#39;.&#39; area the int part, the numberse after</span>
+    <span class="c1"># &#39;.&#39; are the decimal part</span>
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">str_num</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;.&#39;</span><span class="p">:</span>
+            <span class="n">int_part</span> <span class="o">=</span> <span class="n">temp</span>
+            <span class="n">temp</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+            <span class="k">continue</span>
+        <span class="n">temp</span> <span class="o">+=</span> <span class="n">c</span>
+    <span class="k">if</span> <span class="n">int_part</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">int_part</span> <span class="o">=</span> <span class="n">temp</span>
+    <span class="k">else</span><span class="p">:</span> 
+        <span class="n">dec_part</span> <span class="o">=</span> <span class="n">temp</span>
+         
+    <span class="k">return</span> <span class="n">int_part</span><span class="p">,</span> <span class="n">dec_part</span></div>
+ 
+                
+<div class="viewcode-block" id="real_to_base_k"><a class="viewcode-back" href="../binary_machine.html#Binary_machine.real_to_base_k">[docs]</a><span class="k">def</span> <span class="nf">real_to_base_k</span><span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert a real number to its representation in base k.</span>
+<span class="sd">     </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    num : numeric</span>
+<span class="sd">        A real number.</span>
+<span class="sd">    base : int</span>
+<span class="sd">        The base that will be used in the conversion.</span>
+<span class="sd">         </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    str</span>
+<span class="sd">        The representation of the number in base k. </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Split the number in the integer and decimal part</span>
+    <span class="n">int_part</span><span class="p">,</span> <span class="n">dec_part</span> <span class="o">=</span> <span class="n">split_number</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
+    <span class="c1"># Convert the integer and decimal part to the base k representation</span>
+    <span class="n">int_part</span> <span class="o">=</span> <span class="n">int_to_base_k</span><span class="p">(</span><span class="n">int_part</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
+    <span class="n">dec_part</span> <span class="o">=</span> <span class="n">dec_to_base_k</span><span class="p">(</span><span class="n">dec_part</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">int_part</span> <span class="o">+</span> <span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="n">dec_part</span></div>
+ 
+                
+<div class="viewcode-block" id="aux_sum"><a class="viewcode-back" href="../binary_machine.html#Binary_machine.aux_sum">[docs]</a><span class="k">def</span> <span class="nf">aux_sum</span><span class="p">(</span><span class="n">num1</span><span class="p">,</span> <span class="n">num2</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Sum 2 numbers.</span>
+<span class="sd">     </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    num1 : numeric</span>
+<span class="sd">        A real number.</span>
+<span class="sd">    num2 : numeric</span>
+<span class="sd">        A real number.</span>
+<span class="sd">         </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numeric</span>
+<span class="sd">        The sum of both numbers </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">num1</span> <span class="o">+</span> <span class="n">num2</span></div>
+ 
+                
+<div class="viewcode-block" id="aux_subs"><a class="viewcode-back" href="../binary_machine.html#Binary_machine.aux_subs">[docs]</a><span class="k">def</span> <span class="nf">aux_subs</span><span class="p">(</span><span class="n">num1</span><span class="p">,</span> <span class="n">num2</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Substract 2 numbers</span>
+<span class="sd">     </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    num1 : numeric</span>
+<span class="sd">        A real number.</span>
+<span class="sd">    num2 : numeric</span>
+<span class="sd">        A real number.</span>
+<span class="sd">         </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numeric</span>
+<span class="sd">        The first number minus the second one </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">num1</span> <span class="o">-</span> <span class="n">num2</span></div>
+ 
+                
+<div class="viewcode-block" id="aux_times"><a class="viewcode-back" href="../binary_machine.html#Binary_machine.aux_times">[docs]</a><span class="k">def</span> <span class="nf">aux_times</span><span class="p">(</span><span class="n">num1</span><span class="p">,</span> <span class="n">num2</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Times 2 numbers</span>
+<span class="sd">     </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    num1 : numeric</span>
+<span class="sd">        A real number.</span>
+<span class="sd">    num2 : numeric</span>
+<span class="sd">        A real number.</span>
+<span class="sd">         </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numeric</span>
+<span class="sd">        The first number times the second one</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">num1</span> <span class="o">*</span> <span class="n">num2</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Santiago Passos and Alejandro Rojas
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
