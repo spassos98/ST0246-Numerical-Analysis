@@ -121,11 +121,11 @@ def bisection_3d(function, point_a, point_b, tol, max_iterations):
     return line_param(point_a, point_b, mid)
 
 
-def find_root(function, point_a, point_b, step, tol, max_iterations):
+def search_interval_3d(function, point_a, point_b, step, tol, max_iterations):
     """
     Given a function in R3 and two points in R3 representing a line, this 
-    function find (if exists) a point in that line for which the 
-    function is zero.
+    function returns two points in that line representing an interval where
+    the function is zero.
     
     Parameters
     ----------
@@ -176,12 +176,50 @@ def find_root(function, point_a, point_b, step, tol, max_iterations):
     left_point = line_param(point_a, point_b, t - step)
     right_point = line_param(point_a, point_b, t)
     
-    return bisection_3d(function, left_point, right_point, tol, max_iterations)
+    return left_point, right_point
+
+
+def find_root(function, point_a, point_b, step, tol, max_iterations):
+    """
+    Given a function in R3 and two points in R3 representing a line, this 
+    function find (if exists) a point in that line for which the 
+    function is zero.
     
+    Parameters
+    ----------
+    function : function
+        A function which recieves a (3,) or (3,1) shaped numpy array, 
+        representing a curve in the space.
+    point_a : ndarray
+        A point in the space represented by a (3,) or (3,1) shaped numpy array.
+    point_b : ndarray
+        A point in the space represented by a (3,) or (3,1) shaped numpy array.
+    step : numeric
+        The step that will be used in the incremental search process.
+    tol : numeric
+        A tolerance value for the approximation.
+    max_interations : int
+        Maximum number of iteration to get the solution. If no solution is 
+        found then the process is terminated.
+    
+    Returns
+    -------
+    ndarray
+        A point for which the function is zero.
+    """
+    left_point , right_point = search_interval_3d(function, point_a, point_b, 
+                                                  step, tol, max_iterations)
+    
+    point_where_zero = bisection_3d(function, left_point, right_point, tol, 
+                                    max_iterations)
+    
+    return point_where_zero
+
+
 if __name__ == '__main__':
     a = np.array([1.5, 0, 0])
     b = np.array([-1.5, 0, 0])
-    tol = 1e-5
+    tol = 1e-10
     max_iter = 1000
     step  = 0.1
     root = find_root(function_3d, a, b, step, tol, max_iter)
