@@ -43,17 +43,18 @@ def line_param(point_a, point_b, t):
     Returns
     -------
     ndarray
-        The point that representesthe given value for the parametrization.
+        The point that represents the given value for the parametrization.
     """
     new_point = point_a - point_b
     return point_b + t*new_point
 
 
-def bisection_3d(function, point_a, point_b, tol, max_iterations):
+def bisection_3d(function, point_a, point_b, tol, max_iterations, 
+                 show_process = False):
     """
-    Given a function in R3 and two points in R3 representing a line and the
-    there exist a point between that to points for which the function is zero.
-    This function find that point.
+    Given a function in R3 and two points in R3 representing a line and if
+    there exists a point between that to points for which the function is zero,
+    this function finds that point.
     
     Parameters
     ----------
@@ -78,7 +79,7 @@ def bisection_3d(function, point_a, point_b, tol, max_iterations):
         A point for which the function is zero.
     """
     # We are going to use a parametrization for the line between point_a and
-    # point_b. In this case all the point between a and b can be represented
+    # point_b. In this case all the points between a and b can be represented
     # as: x = point_b + t(point_a - point_b), where t in a Real number. For
     # 0 <= t <=1 we get all the points between a and b.
     # This is why the first value for the ends int the bisection are 0 and 1.
@@ -117,11 +118,15 @@ def bisection_3d(function, point_a, point_b, tol, max_iterations):
         mid = (r+l)/2
         f_mid = function( line_param(point_a, point_b, mid) )
         iterations += 1
-        
+    
+    if show_process:
+        print('number of iterations to find root = {0}'.format(iterations))
+
     return line_param(point_a, point_b, mid)
 
 
-def search_interval_3d(function, point_a, point_b, step, tol, max_iterations):
+def search_interval_3d(function, point_a, point_b, step, tol, max_iterations,
+                       show_process = False):
     """
     Given a function in R3 and two points in R3 representing a line, this 
     function returns two points in that line representing an interval where
@@ -152,7 +157,7 @@ def search_interval_3d(function, point_a, point_b, step, tol, max_iterations):
     # The first interval is created with the values [0, step]
     t = step
     # We use a parametrization for the line based on the two points given.
-    # It is possible to get all point in the line changing the parameters t.
+    # It is possible to get any point in the line changing the parameters t.
     # For t=0 we get the point_b and for t=1 we get the point_a.
     last_val = function( line_param(point_a, point_b, 0) )
     current_val = function( line_param(point_a, point_b, t) )
@@ -169,17 +174,22 @@ def search_interval_3d(function, point_a, point_b, step, tol, max_iterations):
         # Calculate the new value
         current_val = function( line_param(point_a, point_b, t) )
         iterations += 1
-    
+        
     # These point represent the interval for which a change is the signs exist.
     # This means that there is a point in this interval for which the function
     # is zero. We use bisection in this interval to find that point.
     left_point = line_param(point_a, point_b, t - step)
     right_point = line_param(point_a, point_b, t)
     
+    if show_process: 
+        print('number of iterations to find interval = {0}'.format(iterations))
+        print('interval found : [{0} , {1} ])'.format(left_point, right_point))
+    
     return left_point, right_point
 
 
-def find_root(function, point_a, point_b, step, tol, max_iterations):
+def find_root(function, point_a, point_b, step, tol, max_iterations, 
+              show_process = False):
     """
     Given a function in R3 and two points in R3 representing a line, this 
     function find (if exists) a point in that line for which the 
@@ -208,10 +218,11 @@ def find_root(function, point_a, point_b, step, tol, max_iterations):
         A point for which the function is zero.
     """
     left_point , right_point = search_interval_3d(function, point_a, point_b, 
-                                                  step, tol, max_iterations)
+                                                  step, tol, max_iterations,
+                                                  show_process)
     
     point_where_zero = bisection_3d(function, left_point, right_point, tol, 
-                                    max_iterations)
+                                    max_iterations, show_process)
     
     return point_where_zero
 
@@ -222,6 +233,17 @@ if __name__ == '__main__':
     tol = 1e-10
     max_iter = 1000
     step  = 0.1
-    root = find_root(function_3d, a, b, step, tol, max_iter)
-    print(list(root))
-    print(function_3d(root))
+    show_iterations = True
+    
+    print('f(x,y,z) = x^2 + y^2 + z^2')
+    
+    try:
+        root = find_root(function_3d, a, b, step, tol, max_iter, 
+                         show_iterations)
+        print('point found = {0}'.format(list(root)))
+        print('f(p) = {0}'.format(function_3d(root)))
+    
+    except Exception as e:
+        print(e)
+        
+
