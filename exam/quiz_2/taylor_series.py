@@ -20,6 +20,7 @@ true_value = expr.subs(x, x_val)
 
 cumulative_sum = 0
 
+print("Example of change")
 print('Iteración | Valor Acumulado | Error absoluto | Error relativo')
 
 last_value = 0
